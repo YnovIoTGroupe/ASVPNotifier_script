@@ -2,6 +2,16 @@
  * Created by Léon on 15/03/2017.
  */
 'use strict'
+
+//IotHub
+var Protocol = require('azure-iot-device-amqp').Amqp;
+var Client = require('azure-iot-device').Client;
+var ConnectionString = require('azure-iot-device').ConnectionString;
+var Message = require('azure-iot-device').Message;
+//Azure PARAMS
+var AzureConnectionString = '';
+var client = Client.fromConnectionString(AzureConnectionString, Protocol);
+
 const vision = require('node-cloud-vision-api');
 let Twitter = require('twitter');
 
@@ -43,3 +53,40 @@ vision.annotate(req).then((res) => {
 }, (e) => {
     console.log('Error: ', e)
 });
+
+
+
+//AZURE FUNC///////
+client.open(function (err, result) {
+    if (err) {
+        printErrorFor('open')(err);
+    } else {
+        //console.log(result);
+        //READING MESSAGES FROM MASTER
+        client.on('message', function (msg) {
+            console.log('receive data: ' + msg.getData());
+            client.complete(msg, printResultFor('completed'));
+        });
+        client.on('event', function (msg) {
+            console.log(msg);
+        });
+        //ERRORS
+        client.on('error', function (err) {
+            printErrorFor('client')(err);
+            client.close();
+        });
+    }
+});
+// Helper function to print results for an operation
+function printErrorFor(op) {
+    return function printError(err) {
+        if (err) console.log(op + ' error: ' + err.toString());
+    };
+}
+// Helper function to print results in the console
+function printResultFor(op) {
+  return function printResult(err, res) {
+    if (err) console.log(op + ' error: ' + err.toString());
+    if (res) console.log(op + ' status: ' + res.constructor.name);
+  };
+}
