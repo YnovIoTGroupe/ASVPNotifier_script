@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "azure-iot-device": "^1.1.7",
+    "azure-iot-device-amqp": "^1.1.7",
+    "azure-storage": "^2.1.0",
+    "forecast": "^0.3.2",
     "node-cloud-vision-api": "^0.2.0",
     "twitter": "^1.7.0"
   }
