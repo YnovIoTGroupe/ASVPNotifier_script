@@ -89,6 +89,7 @@ vision.annotate(req).then((res) => {
                     azureStorageService.createBlockBlobFromLocalFile('images', now+'.jpg', IMAGE_PATH, function(error, result, response){
                         if(!error){
                             console.log(`File  ${now}.jpg Uploaded !`);
+                            process.exit();
                         }
                     });
                 });
