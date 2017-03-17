@@ -43,7 +43,6 @@ vision.init({auth: 'AIzaSyCTqkGv7VnFO5P9LFSB6BudFcBkzUUgEKY'});
 const req = new vision.Request({
     image: new vision.Image(IMAGE_PATH),
     features: [
-        new vision.Feature('FACE_DETECTION', 4),
         new vision.Feature('LABEL_DETECTION', 10),
     ]
 });
