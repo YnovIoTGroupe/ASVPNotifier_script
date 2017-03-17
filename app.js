@@ -51,6 +51,9 @@ const req = new vision.Request({
 vision.annotate(req).then((res) => {
     let response = res.responses;
     console.log(JSON.stringify(response));
+    if(!response[0].labelAnnotations){
+        process.exit();
+    }
     let filter = response[0].labelAnnotations.filter(function (annotation) {
         return annotation.score > 0.7 && (["police", "police officer"].includes(annotation.description));
     });
