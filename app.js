@@ -18,8 +18,6 @@ const CONNECTION_STRING = 'HostName=ASVPNotifier.azure-devices.net;DeviceId=ASVP
 const LAST_NOTIFICATION_FILE = './LAST_NOTIFICATION';
 const NOTIFICATION_INTERVAL = 2 * 60 * 60 * 1000; //Interval of 2 hours
 
-Moment.locale('fr');
-
 fs.readFile(LAST_NOTIFICATION_FILE, "UTF-8", function (err, lastNotification) {
     if(!err && Date.now() - lastNotification < NOTIFICATION_INTERVAL){ // File not exist or more than NOTIFICATION_INTERVAL
         process.exit();
@@ -64,6 +62,7 @@ vision.annotate(req).then((res) => {
     if(filter.length > 0){
         console.log(filter);
         let now = Date.now();
+        Moment.locale('fr');
         let nowString = Moment().format('L LT');
         client.post('statuses/update', {status: nowString+' : Attention, ASVP !'},  function(error, tweet, response) {
             if(error){
