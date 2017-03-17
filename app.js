@@ -11,11 +11,14 @@ const Protocol = require('azure-iot-device-amqp').Amqp;
 const Client = require('azure-iot-device').Client;
 const Message = require('azure-iot-device').Message;
 const AzureStorage = require('azure-storage');
+const Moment = require('moment');
 
 const IMAGE_PATH = '/home/pi/viewcam.jpg';
 const CONNECTION_STRING = 'HostName=ASVPNotifier.azure-devices.net;DeviceId=ASVPNotifierMessage;SharedAccessKey=ZyR6I+6mmEnFc/r45zsH5xtdCAm2EuIqmBcPdlNya3g=';
 const LAST_NOTIFICATION_FILE = './LAST_NOTIFICATION';
 const NOTIFICATION_INTERVAL = 2 * 60 * 60 * 1000; //Interval of 2 hours
+
+Moment.locale('fr');
 
 fs.readFile(LAST_NOTIFICATION_FILE, "UTF-8", function (err, lastNotification) {
     if(!err && Date.now() - lastNotification < NOTIFICATION_INTERVAL){ // File not exist or more than NOTIFICATION_INTERVAL
@@ -61,7 +64,7 @@ vision.annotate(req).then((res) => {
     if(filter.length > 0){
         console.log(filter);
         let now = Date.now();
-        let nowString = new Date(now).toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        let nowString = Moment().format('L LT');
         client.post('statuses/update', {status: nowString+' : Attention, ASVP !'},  function(error, tweet, response) {
             if(error){
                 console.error(error);
