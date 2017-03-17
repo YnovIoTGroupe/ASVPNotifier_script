@@ -55,7 +55,7 @@ vision.annotate(req).then((res) => {
         process.exit();
     }
     let filter = response[0].labelAnnotations.filter(function (annotation) {
-        return annotation.score > 0.7 && (["police", "police officer"].includes(annotation.description));
+        return annotation.score > 0.6 && (["police", "police officer"].includes(annotation.description));
     });
 
     if(filter.length > 0){
