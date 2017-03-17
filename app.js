@@ -63,7 +63,7 @@ vision.annotate(req).then((res) => {
         console.log(filter);
         let now = Date.now();
         Moment.locale('fr');
-        let nowString = Moment().format('L LT');
+        let nowString = Moment().locale('fr').format('L LT');
         client.post('statuses/update', {status: nowString+' : Attention, ASVP !'},  function(error, tweet, response) {
             if(error){
                 console.error(error);
