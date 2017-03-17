@@ -84,16 +84,15 @@ vision.annotate(req).then((res) => {
                     //Send to Azure
                     client.sendEvent(new Message(dataToAzure), function (err) {
                         if(err) console.error(err);
-                    });
-
-                    let azureStorageService = AzureStorage.createBlobService('asvpnotifierstorage',
-                                                            'HJlfFILzY54v853Fzm8PM0rArCN32Rsr7/4lgYhlzVFtHy21Mrptn2QruGnYRyh4MHodIHVyhtugUuk5ILY1+g==',
-                                                            'https://asvpnotifierstorage.blob.core.windows.net/?sv=2016-05-31&ss=bfqt&srt=sco&sp=rwdlacup&se=2017-03-17T00:24:55Z&st=2017-03-16T16:24:55Z&spr=https&sig=U01Y4aaBFGsb6PSSuK5csdPVgF0QdY%2Flhd5vUbknjLQ%3D');
-                    azureStorageService.createBlockBlobFromLocalFile('images', now+'.jpg', IMAGE_PATH, function(error, result, response){
-                        if(!error){
-                            console.log(`File  ${now}.jpg Uploaded !`);
-                            process.exit();
-                        }
+                        let azureStorageService = AzureStorage.createBlobService('asvpnotifierstorage',
+                            'HJlfFILzY54v853Fzm8PM0rArCN32Rsr7/4lgYhlzVFtHy21Mrptn2QruGnYRyh4MHodIHVyhtugUuk5ILY1+g==',
+                            'https://asvpnotifierstorage.blob.core.windows.net/?sv=2016-05-31&ss=bfqt&srt=sco&sp=rwdlacup&se=2017-03-17T00:24:55Z&st=2017-03-16T16:24:55Z&spr=https&sig=U01Y4aaBFGsb6PSSuK5csdPVgF0QdY%2Flhd5vUbknjLQ%3D');
+                        azureStorageService.createBlockBlobFromLocalFile('images', now+'.jpg', IMAGE_PATH, function(error, result, response){
+                            if(!error){
+                                console.log(`File  ${now}.jpg Uploaded !`);
+                                process.exit();
+                            }
+                        });
                     });
                 });
             }
